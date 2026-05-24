@@ -1,37 +1,46 @@
 # Research
 
-Bessemer's versioned research artifacts. Captures what each release of `agent-dev-team` is meaningfully advancing — not just what it ships.
+Bessemer's research arm. Comprises two parallel tracks:
 
-## Why this exists
-
-We want every meaningful version to demonstrably contribute to the agent-dev space, not just iterate on features. Each major version carries an overall thesis; each minor version carries a specific research question; each question has a documented answer at version close.
-
-## How this pairs with agent-dev-team
-
-This is the **research track**; [`usebessemer/agent-dev-team`](https://github.com/usebessemer/agent-dev-team) is the **development track**. They move in step but live separately:
-
-- A cycle's `scope.md` locks **before** the corresponding agent-dev-team cycle begins
-- The `experiment-log.md` accumulates references to dev-track issues and PRs throughout the cycle
-- `findings.md` is written **at** dev cycle close
-- `next-questions.md` feeds the next cycle's scope
-
-Cross-links use full GitHub URLs in both directions. The two repos can be run by separate contributors at scale; for now they are paired by one operator.
+- **Applied.** Versioned research tied to specific Bessemer projects. Tracks what each release is meaningfully advancing.
+- **Theory.** Free-standing investigations into programming patterns, emerging technology, methodologies, and adjacent ideas. May inform applied work; may stand on its own.
 
 ## Structure
 
-- `epochs/` — one whitepaper per major version (`v1.md`, `v2.md`...). Living document: drafted at epoch open, refined as cycles land, locked at epoch close.
-- `cycles/` — one folder per minor version (`v1.6/`, `v1.7/`...). Each contains:
-  - `scope.md` — the research question and why it matters now. Locks before build begins.
-  - `experiment-log.md` — what was tried during the cycle, continuous.
-  - `findings.md` — what was learned, written at cycle close.
-  - `next-questions.md` — questions surfaced that feed the next cycle's scope.
+```
+<root>/
+├── applied/
+│   └── <project-name>/
+│       ├── epochs/           one whitepaper per major version
+│       └── cycles/<v{N.M}>/  one folder per minor version, containing
+│                             scope, experiment-log, findings, next-questions
+└── theory/
+    ├── README.md             index of theory pieces
+    └── <piece-slug>.md       one file per piece (folder if it grows)
+```
 
-Sprints execute inside cycles against GitHub Issues. Patch versions emerge from sprints and roll up into the parent cycle's `experiment-log.md`.
+## Active applied tracks
 
-## Three-layer cadence
+| Project | Dev repo | Folder |
+|---|---|---|
+| agent-dev-team | [usebessemer/agent-dev-team](https://github.com/usebessemer/agent-dev-team) | [applied/agent-dev-team/](applied/agent-dev-team/) |
+
+## How applied research works
+
+A cycle's `scope.md` locks before the corresponding dev cycle begins. The `experiment-log.md` accumulates references to dev-track issues and pull requests throughout the cycle. `findings.md` is written at dev cycle close. `next-questions.md` feeds the subsequent cycle's scope.
+
+Cross-references use full GitHub URLs in both directions. At scale, applied research and the corresponding dev project may be owned by separate contributors; for now they are paired by one operator.
+
+## How theory pieces work
+
+Each piece begins as a feature branch. Drafts iterate on the branch. When ready, merging to main constitutes publication. There is no separate `drafts/` subfolder; main reflects the published state, while feature branches hold in-progress work.
+
+See [theory/README.md](theory/README.md) for the current index.
+
+## Three-layer cadence (applied)
 
 | Layer | Maps to | Artifact |
 |---|---|---|
 | Epoch | Major version (`v1`, `v2`) | Whitepaper |
 | Cycle | Minor version (`v1.6`, `v1.7`) | The four-file cycle folder |
-| Sprint | Batch of GitHub Issues | Patch versions + log entries |
+| Sprint | Batch of GitHub issues | Patch versions and experiment-log entries |
