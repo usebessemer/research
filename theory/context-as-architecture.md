@@ -1,52 +1,65 @@
 # Context as architecture
 
-> Draft outline, 2026-05-23. Status: outline; prose to follow in subsequent commits.
+> Draft outline, revised 2026-05-24. Status: outline; prose to follow.
 
 ## TL;DR
 
 Where information lives in a project determines when and how an agent uses it, making folder structure the load-bearing element of agentic workflow design rather than mere file organization.
 
-## The concept
+## The architecture in five stages
 
-Three core ideas to develop into prose:
+A small toy example, progressively complicated, surfaces the two axes that make folder structure architectural: the **routing hierarchy** (vertical: global → workspace → task) and the **load pattern** (horizontal: always loaded / on-demand / per-work-item / appendable).
 
-1. **Context is routing, not just storage.** A file's location encodes its load pattern. A file in `00-context/` is read every time the workspace is entered; a file in `02-scope/` is read only when working on scope. The path is the routing rule.
+### Stage 0 — Identity only
 
-2. **Progressive disclosure.** Agents do not need everything at once. They need exactly enough for the current step. Context windows are finite, and so is relevance.
+Before the workspace, there's the chatbot. A user opens a chatbot connected to an LLM, has a conversation, closes the tab. The next session starts from zero. No memory of what was discussed, no continuity of preferences, no identity.
 
-3. **The folder is the methodology.** Structure encodes process. A staged folder with per-stage `CONTEXT.md` contracts is not documentation *about* the methodology; it *is* the methodology.
+A workspace with a single `CLAUDE.md` file changes that. `CLAUDE.md` carries who the user is (identity), how the agent should behave (conventions, voice rules, mode declarations) and what context lives where, once the workspace grows beyond a single file (routing instructions). What this delivers, that a chatbot connected to an LLM cannot, is persistent state across instances of a chat. Each new session begins by reading `CLAUDE.md`, so the agent picks up where the last session left off. A chatbot, by contrast, begins stateless every time. 
 
-## Where it shows up in practice
+What this example doesn't offer is a place for work to live. The product of each session has only two places to go: forced into `CLAUDE.md`, which pollutes what should remain identity-focused, or accumulated as ad-hoc documents with no convention. What's missing is folder structure: a place for work that isn't identity.
 
-Three real examples to anchor the concept:
+### Stage 1 — Work files
 
-- **AIOS root structure.** `CLAUDE.md` provides L0 identity, always loaded and defining who the agent is. `references/` holds reference material loaded as needed. `context/` is always-loaded background. `decisions/log.md` is the appendable record. Each lives where its load pattern requires.
+[Add drafts/. First architectural split: always-loaded vs per-task.]
 
-- **The consulting SOP.** Per-stage `CONTEXT.md` files with Input, Process, Output, and Completion contracts. Each stage's contract tells the agent exactly what to load and what to skip. The contract format itself is the routing protocol.
+### Stage 2 — References
 
-- **Engagement workspace instantiation.** Each consulting engagement instantiates the SOP. The L1 `CLAUDE.md` router contains a load/skip table: "for discovery prep, load 00-context/* and 01-discovery/call-prep.md; skip 03-build/ through 06-writeup/." The structure walks the agent through the work without overload.
+[Add references/. Third load pattern: on-demand by task type.]
+
+### Stage 3 — Background context
+
+[Add context/. Split between identity and background truth.]
+
+### Stage 4 — Workspace
+
+[Add a nested workspace with its own CLAUDE.md. Routing hierarchy enters: L0 to L1.]
+
+### Stage 5 — Task-level routing
+
+[Workspace CLAUDE.md gets a load/skip table. L2 task routing.]
+
+### The two axes, and why they recur
+
+[Vertical: routing hierarchy. Horizontal: load pattern. The same load-pattern logic repeats at every routing level. That recursion is what makes the architecture scale without learning a new system at each level.]
+
+## AIOS as a worked example at scale
+
+[Map the AIOS root onto Stages 0 through 3. Map one engagement workspace onto Stages 4 and 5. Concrete evidence that the toy example is the real architecture, just at more nodes.]
 
 ## Failure modes
 
-- **Monolithic context.** Everything placed in one large file. No routing, everything loads, context window exhausted. The opposite of progressive disclosure.
-
-- **Hidden context.** Information that should be loaded for a task but is not surfaced in any routing layer. The agent never finds it.
-
-- **Stale context.** Loaded but no longer accurate. Worse than missing context because it overrides truth.
-
-- **Over-routing.** Too many layers, the agent cannot navigate. In practice three layers are usually sufficient: global (L0), workspace (L1), and task (L2).
+- Monolithic context
+- Hidden context
+- Stale context
+- Over-routing
 
 ## Adjacent concepts
 
-- **ICM (Interpretable Context Methodology):** Van Clief and McDermott. The architectural lineage; their five-layer model is the formal expression of what is described here in three layers.
-
-- **Progressive disclosure:** the underlying principle. Borrowed from UI design and newly load-bearing in agentic contexts.
-
-- **AGENTS.md / CLAUDE.md:** the convention for declaring an agent's L0 entry point. Different vendors, same idea.
-
-- **Memory systems:** adjacent but distinct. Memory is *agent-side state* that survives the conversation; context-as-architecture is *project-side structure* that the agent reads each time.
-
-- **Prompt engineering:** related but distinct. A prompt operates per-call. Context-as-architecture is structural and persistent.
+- ICM (Interpretable Context Methodology), Van Clief and McDermott. The architectural lineage.
+- Progressive disclosure
+- AGENTS.md / CLAUDE.md conventions
+- Memory systems
+- Prompt engineering
 
 ## References
 
@@ -56,4 +69,4 @@ Three real examples to anchor the concept:
 
 ---
 
-*Outline drafted 2026-05-23. Next: fill each section into prose, targeting 1 to 3 pages total.*
+*Outline revised 2026-05-24. Next: fill each stage section into prose, then fill the AIOS worked-example section, then failure modes and TL;DR.*
