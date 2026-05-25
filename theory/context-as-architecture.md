@@ -32,7 +32,7 @@ my-workspace/
     └── project-3.md
 ```
 
-Now the folder has content. There are three projects currently underway. In this example there are now two distinct load patterns: `CLAUDE.md` is always loaded (identity, global context) and `projects/*` files are loaded per task. This creates separation between identity (always loaded) and per-task work (loaded only when relevant). Identity remains clean; work has a stable home; agent has a target location for output. 
+Identity alone is a name tag, not a workspace. The next decision is where actual work lives, because it can't live inside CLAUDE.md. There are three projects currently underway. In this example there are now two distinct load patterns: `CLAUDE.md` is always loaded (identity, global context) and `projects/*` files are loaded per task. This creates separation between identity (always loaded) and per-task work (loaded only when relevant). Identity remains clean; work has a stable home; agent has a target location for output. 
 
 Identity plus per-task work is most of what an agent needs, but not all. There is still durable knowledge that applies across projects, such as style guides, methodologies, and conventions. None of it is identity or work-in-progress, and each needs a home of its own.
 
@@ -46,7 +46,7 @@ my-workspace/
     └── project-1.md
 ```
 
-Now the workspace includes a style guide. It captures conventions the user wants applied to writing across all projects, such as formatting standards, citation discipline, and argument structure. The style guide is neither identity nor work-in-progress. `references/style-guide.md` is loaded on demand when the task type calls for it (writing). Three load patterns now distinguishable:
+Identity says who. Projects say what. But there is a third category, neither identity nor work-in-progress: durable rules that apply across projects. So far, they have nowhere to go. The style guide captures conventions the user wants applied to writing across all projects, such as formatting standards, citation discipline, and argument structure. The style guide is neither identity nor work-in-progress. `references/style-guide.md` is loaded on demand when the task type calls for it (writing). Three load patterns now distinguishable:
 
 - Always loaded → `CLAUDE.md`
 - On-demand by task type → `references/`
@@ -54,11 +54,21 @@ Now the workspace includes a style guide. It captures conventions the user wants
 
 Identity, per-task work, and on-demand reference handle most context needs. What's still missing is always-relevant facts about the user that aren't identity statements. Things like "currently moving cities" or "managing a chronic injury that affects desk time" shape how the agent should respond, but they aren't durable identity (too situational) and they aren't reference (relevant everywhere, not just for some tasks). They need their own always-loaded home.
 
-
-
 ### Stage 3 — Background context
+```
+my-workspace/
+├── CLAUDE.md
+├── context/
+│   └── about-me.md
+├── references/
+│   └── style-guide.md
+└── projects/
+    └── project-1.md
+```
 
-[Add context/. Split between identity and background truth.]
+Identity is durable. Projects come and go. Reference material is timeless. But what about the user's life right now: the recent move or a standing appointment? Facts that are always relevant but never identity. This is the first time two locations share a load pattern but hold different content types. Load pattern (when something gets loaded) and content type (what kind of information it is) are independent axes; the architecture distinguishes both. `context/about-me.md` holds facts about the user that always inform decisions but aren't identity statements. These shape every interaction but aren't durable identity. Identity should be stable; these change.
+
+Everything so far lives at the same routing level. There is no notion yet of a subproject with its own internal structure, or a workspace inside a workspace. Real workflows have nesting. A "novel" project has chapters, references specific to that novel, and a `CLAUDE.md` that governs how the novel work specifically gets done. The flat architecture can't accommodate that.
 
 ### Stage 4 — Workspace
 
