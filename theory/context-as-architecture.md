@@ -11,6 +11,10 @@ Where information lives in a project determines when and how an agent uses it, m
 A small toy example, progressively complicated, surfaces the two axes that make folder structure architectural: the **routing hierarchy** (vertical: global → workspace → task) and the **load pattern** (horizontal: always loaded / on-demand / per-work-item / appendable).
 
 ### Stage 0 — Identity only
+```
+my-workspace/
+├── CLAUDE.md
+```
 
 Before the workspace, there's the chatbot. A user opens a chatbot connected to an LLM, has a conversation, closes the tab. The next session starts from zero. No memory of what was discussed, no continuity of preferences, no identity.
 
@@ -19,8 +23,18 @@ A workspace with a single `CLAUDE.md` file changes that. `CLAUDE.md` carries who
 What this example doesn't offer is a place for work to live. The product of each session has only two places to go: forced into `CLAUDE.md`, which pollutes what should remain identity-focused, or accumulated as ad-hoc documents with no convention. What's missing is folder structure: a place for work that isn't identity.
 
 ### Stage 1 — Work files
+```
+my-workspace/
+├── CLAUDE.md
+└── projects/
+    ├── project-1.md
+    ├── project-2.md
+    └── project-3.md
+```
 
-[Add drafts/. First architectural split: always-loaded vs per-task.]
+Now the folder has content. There are three projects currently underway. In this example there are now two distinct load patterns: `CLAUDE.md` is always loaded (identity, global context) and `projects/*` files are loaded per task. This creates separation between identity (always loaded) and per-task work (loaded only when relevant). Identity remains clean; work has a stable home; agent has a target location for output. 
+
+Identity plus per-task work is most of what an agent needs, but not all. There is still durable knowledge that applies across projects, such as style guides, methodologies, and conventions. None of it is identity or work-in-progress, and each needs a home of its own.
 
 ### Stage 2 — References
 
