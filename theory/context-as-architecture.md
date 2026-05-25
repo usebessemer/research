@@ -37,8 +37,24 @@ Now the folder has content. There are three projects currently underway. In this
 Identity plus per-task work is most of what an agent needs, but not all. There is still durable knowledge that applies across projects, such as style guides, methodologies, and conventions. None of it is identity or work-in-progress, and each needs a home of its own.
 
 ### Stage 2 — References
+```
+my-workspace/
+├── CLAUDE.md
+├── references/
+│   └── style-guide.md
+└── projects/
+    └── project-1.md
+```
 
-[Add references/. Third load pattern: on-demand by task type.]
+Now the workspace includes a style guide. It captures conventions the user wants applied to writing across all projects, such as formatting standards, citation discipline, and argument structure. The style guide is neither identity nor work-in-progress. `references/style-guide.md` is loaded on demand when the task type calls for it (writing). Three load patterns now distinguishable:
+
+- Always loaded → `CLAUDE.md`
+- On-demand by task type → `references/`
+- Per specific work item → `projects/`
+
+Identity, per-task work, and on-demand reference handle most context needs. What's still missing is always-relevant facts about the user that aren't identity statements. Things like "currently moving cities" or "managing a chronic injury that affects desk time" shape how the agent should respond, but they aren't durable identity (too situational) and they aren't reference (relevant everywhere, not just for some tasks). They need their own always-loaded home.
+
+
 
 ### Stage 3 — Background context
 
