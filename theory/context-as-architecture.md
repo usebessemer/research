@@ -111,7 +111,52 @@ What L1 does not provide is task-specific routing. The novel's `CLAUDE.md` estab
 
 ### Stage 5 — Task-level routing
 
-[Workspace CLAUDE.md gets a load/skip table. L2 task routing.]
+```
+my-workspace/
+├── CLAUDE.md
+├── context/
+│   └── about-me.md
+├── references/
+│   └── style-guide.md
+└── projects/
+    └── novel/
+        ├── CLAUDE.md       (now includes a load/skip table)
+        ├── context/
+        │   └── plot-bible.md
+        └── chapters/
+            └── ch-1.md
+```
+The workspace knows who it is. It does not know what to do. The novel's `CLAUDE.md` establishes voice rules, target reader, and structural conventions, but says nothing about which files to load when drafting chapter 3 versus editing chapter 1 versus checking continuity across the novel. That gap is the last architectural problem to solve.
+
+The fix is mechanically simple. The workspace's `CLAUDE.md` grows a section that explicitly maps tasks to file loads:
+
+
+## What to load per task
+
+| Task | Load | Skip |
+|---|---|---|
+| Drafting chapter X | `chapters/X.md`, `plot-bible.md`, `style-guide.md` | other chapters |
+| Editing chapter X | `chapters/X.md`, `feedback/X.md` | `plot-bible.md` |
+| Continuity check | `plot-bible.md`, all chapters | `style-guide.md` |
+
+That is L2: task-level routing. Notice what is not added: no new folder, no new file, not even a new structural pattern. The addition is content inside an existing file. The workspace's `CLAUDE.md` was already L1 (workspace identity); now it grows a section that handles L2 routing too. The table is a living document, populated when the workspace is first set up and refined as new task types emerge.
+
+With L2 in place, the agent's loading sequence gains a branching step:
+
+At the global level (L0):
+Read root `CLAUDE.md`, global `context/*`, and any global `references/*` the task calls for
+At the workspace level (L1):
+Read `novel/CLAUDE.md` (workspace identity, routing, and the load/skip table)
+Read `novel/context/*`
+Match the requested task against the load/skip table. This is L2.
+At the task level (now informed by L2):
+Load exactly the files the matched row specifies; skip the rest
+Execute the task
+The new step is the table consultation. The agent reads the workspace's `CLAUDE.md`, finds the row that matches the user's request, and now knows precisely which files to load. The table replaces "load everything in the workspace" or "guess what's relevant" with a deterministic rule.
+
+The architecture is now complete. Both axes are fully populated. The horizontal axis (load pattern combined with content type) operates at each routing level; the vertical axis (L0, L1, L2) determines where the agent operates. Every kind of extension uses the same pattern. Add new workspaces, new task types, nested workspaces, new content types. The architecture absorbs all of them by applying its existing patterns at new scopes. No level of complexity is unreachable while still maintaining strict order. The fractal property does the work.
+
+With operations now part of the architecture alongside identity, a dichotomy emerges that is worth articulating directly before the synthesis. That is the next section.
 
 ### The two axes, and why they recur
 
