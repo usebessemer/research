@@ -32,9 +32,10 @@ my-workspace/
     └── project-3.md
 ```
 
-Identity alone is a name tag, not a workspace. The next decision is where actual work lives, because it can't live inside CLAUDE.md. There are three projects currently underway. In this example there are now two distinct load patterns: `CLAUDE.md` is always loaded (identity, global context) and `projects/*` files are loaded per task. This creates separation between identity (always loaded) and per-task work (loaded only when relevant). Identity remains clean; work has a stable home; agent has a target location for output. 
+Identity is in place. Work has nowhere to live. The fix is a `projects/` folder that holds work files separately from identity. In this example three projects are currently underway. Now there are two distinct load patterns: `CLAUDE.md` is always loaded (identity), and `projects/*` files are loaded per task. This creates separation between identity (always loaded) and per-task work (loaded only when relevant). Identity remains clean; work has a stable home; the agent has a target location for output.
 
 Identity plus per-task work is most of what an agent needs, but not all. There is still durable knowledge that applies across projects, such as style guides, methodologies, and conventions. None of it is identity or work-in-progress, and each needs a home of its own.
+
 
 ### Stage 2 — References
 ```
