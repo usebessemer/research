@@ -158,11 +158,7 @@ The architecture is now complete. Both axes are fully populated. The horizontal 
 
 With operations now part of the architecture alongside identity, a dichotomy emerges that is worth articulating directly before the synthesis. That is the next section.
 
-### The two axes, and why they recur
-
-[Vertical: routing hierarchy. Horizontal: load pattern. The same load-pattern logic repeats at every routing level. That recursion is what makes the architecture scale without learning a new system at each level.]
-
-## Indentity vs Operations
+### Indentity vs Operations
 
 Throughout the build-up, `CLAUDE.md` files have been described as "identity." That is incomplete. `CLAUDE.md` actually carries two distinct kinds of content, and the distinction matters.
 
@@ -177,6 +173,24 @@ The split matters for three reasons. Identity is stable, operations change. Iden
 In Stage 5's toy example, identity and operations are co-located in the workspace's `CLAUDE.md`. The same file carries the identity section and the load/skip table. That is the simplest form. More mature workflows separate them further: each stage gets its own `CONTEXT.md` file with explicit Input → Process → Output → Completion contracts, and the workspace's `CLAUDE.md` stays identity-only. This is the form Van Clief's methodology specifies for multi-stage pipelines, and the form used in practice in production workspaces. Co-location is fine for simple workspaces with few task types; separation pays off when task types multiply and per-task instructions grow beyond a row in a table.
 
 Operations are a living layer of the architecture. The load/skip table is populated when the workspace is first set up and refined over time as new task types emerge, existing rules turn out to be incomplete, or task types fall out of use. This refinement happens deliberately, with human review. The agent can propose changes when it notices recurring patterns or repeated insufficiencies, but the table itself stays under human control. Identity, by contrast, stabilizes early and changes rarely.
+
+### The two axes, and why they recur
+
+Step back from the stages and look at the architecture as a whole.
+
+What started as a single file (`CLAUDE.md`) has grown into a structure with two organizing dimensions.
+
+Vertical: routing hierarchy. L0 (root), L1 (workspace), L2 (task-specific operations). An agent's scope deepens as it moves down. Each level scopes what is relevant at that depth.
+
+Horizontal: load pattern combined with content type. At each routing level, the architecture distinguishes always-loaded identity, always-loaded situational context, on-demand reference material, and per-task working files. The categories repeat at every depth.
+
+These two axes are dimensionally independent: knowing the routing level does not fix the content type, and knowing the content type does not fix the routing level. Both axis values are needed to locate the agent's current context. They are also structurally invariant: the horizontal pattern repeats at each routing level. The same categories appear at L0, at L1, and at any nested workspace. This is the fractal property. The agent does not learn a new system at L1; it applies the L0 pattern at the new scope.
+
+The interaction of the two axes does the work. The horizontal axis decides what the agent loads, when, and what kind of information it is. The vertical axis decides where the agent operates and what scope the loading rules apply to. Together they decompose the full context-selection question ("for an agent operating at this scope with this task, what should it see?") into two cleaner sub-questions. The architecture handles each with a different mechanism: folders and load patterns on the horizontal, nested `CLAUDE.md` files on the vertical.
+
+This decomposition is the paper's central conceptual claim. Most working architectures collapse context selection into a single flat dimension and rely on the model to disambiguate. The two-axes framing makes explicit what those architectures leave implicit. This is the synthesis we propose: Van Clief's five-layer ICM model is more clearly understood as two independent axes — routing hierarchy combined with load pattern and content type. That decomposition is what makes the architecture infinitely composable while keeping the operating logic constant.
+
+The architecture as designed is now closed. The remaining sections look at how it operates at scale, where it fails, and what surrounding ideas inform it.
 
 ## AIOS as a worked example at scale
 
