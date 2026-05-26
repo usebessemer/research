@@ -47,13 +47,14 @@ my-workspace/
     └── project-1.md
 ```
 
-Identity says who. Projects say what. But there is a third category, neither identity nor work-in-progress: durable rules that apply across projects. So far, they have nowhere to go. The style guide captures conventions the user wants applied to writing across all projects, such as formatting standards, citation discipline, and argument structure. The style guide is neither identity nor work-in-progress. `references/style-guide.md` is loaded on demand when the task type calls for it (writing). Three load patterns now distinguishable:
+Identity has a home. Projects have a home. The conventions that apply across all projects do not. The fix is a `references/` folder for durable, cross-project material. In this example a style guide captures the conventions the user wants applied to writing across all projects, such as formatting standards, citation discipline, and argument structure. The style guide is neither identity nor work-in-progress. `references/style-guide.md` is loaded on demand when the task type calls for it (writing). Three load patterns now distinguishable:
 
 - Always loaded → `CLAUDE.md`
 - On-demand by task type → `references/`
 - Per specific work item → `projects/`
 
-Identity, per-task work, and on-demand reference handle most context needs. What's still missing is always-relevant facts about the user that aren't identity statements. Things like "currently moving cities" or "managing a chronic injury that affects desk time" shape how the agent should respond, but they aren't durable identity (too situational) and they aren't reference (relevant everywhere, not just for some tasks). They need their own always-loaded home.
+Identity, per-task work, and on-demand reference handle most context needs. What's still missing is always-relevant facts about the user that aren't identity statements. Things like the recent move or a standing appointment shape how the agent should respond, but they aren't durable identity (too situational) and they aren't reference (relevant everywhere, not just for some tasks). They need their own always-loaded home.
+
 
 ### Stage 3 — Background context
 ```
