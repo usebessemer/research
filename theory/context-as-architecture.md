@@ -208,10 +208,26 @@ What changes at scale is content density, not architecture. AIOS has hundreds of
 
 ## Failure modes
 
-- Monolithic context
-- Hidden context
-- Stale context
-- Over-routing
+The architecture's clarity makes its failure modes specific and identifiable. Five recurring patterns where the methodology gets misapplied, followed by the scenarios where it does not apply at all.
+
+Monolithic context. Everything written into a single `CLAUDE.md` (or single file at any routing level). No load patterns, no scoping. Every session loads the entire file regardless of relevance. Context windows degrade; the "lost in the middle" problem dominates. The fix is recovering the categories: identity, situational context, references, working files. Each goes where its load pattern requires.
+
+Hidden context. Information that should inform decisions is in the workspace but not surfaced through any routing layer. The agent never reads it. Common cause: the file exists but no `CLAUDE.md` mentions it, and it lives in a location no load/skip rule routes to. The fix is making routing explicit. If a file matters, the agent must have a path to discover it.
+
+Stale content. Loaded but no longer accurate. Worse than missing context because it overrides truth. Common sources: out-of-date situational facts in `context/`, retired conventions still in `references/`, load/skip tables that have not kept pace with how the work has evolved. The fix is treating context and operations as living documents with a deliberate review cadence. Identity stabilizes early; everything else gets revisited.
+
+Over-routing. Too many nested workspaces or routing layers, each adding indirection the agent must navigate. The methodology becomes its own obstacle. Three layers (L0, L1, L2) is usually sufficient; going deeper rarely justifies the cognitive overhead, for either the agent or the human reading the structure.
+
+Layer bloat. Content at the wrong routing level. Operations content (load/skip tables, task-specific instructions) accumulating in the root `CLAUDE.md` instead of staying in workspaces. Situational facts that should live in `context/` getting baked into identity in `CLAUDE.md`. The fix is recognizing each piece of content's natural scope and putting it where it belongs. The Identity vs Operations section frames the most common variant: operations creeping into identity.
+
+### When the architecture does not apply
+
+ICM is designed for sequential, human-reviewed workflows with periodic agent handoff. It does not fit:
+
+Real-time multi-agent collaboration with tight message loops
+High-concurrency systems with many simultaneous users
+Mid-pipeline automated branching based on AI decisions, without human review gates
+A separate, currently open, problem is traceability. When an output reflects one rule rather than another, the architecture does not provide an easy way to trace back which scope's rule drove the specific output. Van Clief flags this in the source paper. The scoping is clear; the debuggability is not.
 
 ## Adjacent concepts
 
