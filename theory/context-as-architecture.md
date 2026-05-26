@@ -18,7 +18,7 @@ my-workspace/
 
 Before the workspace, there's the chatbot. A user opens a chatbot connected to an LLM, has a conversation, closes the tab. The next session starts from zero. No memory of what was discussed, no continuity of preferences, no identity.
 
-A workspace with a single `CLAUDE.md` file changes that. `CLAUDE.md` carries who the user is (identity), how the agent should behave (conventions, voice rules, mode declarations) and what context lives where, once the workspace grows beyond a single file (routing instructions). What this delivers, that a chatbot connected to an LLM cannot, is persistent state across instances of a chat. Each new session begins by reading `CLAUDE.md`, so the agent picks up where the last session left off. A chatbot, by contrast, begins stateless every time. 
+A workspace with a single `CLAUDE.md` file changes that. `CLAUDE.md` carries identity: who the user is, how the agent should behave, what conventions and voice rules apply. What this delivers, that a chatbot connected to an LLM cannot, is persistent state across instances of a chat. Each new session begins by reading `CLAUDE.md`, so the agent picks up where the last session left off. A chatbot, by contrast, begins stateless every time. 
 
 What this example doesn't offer is a place for work to live. The product of each session has only two places to go: forced into `CLAUDE.md`, which pollutes what should remain identity-focused, or accumulated as ad-hoc documents with no convention. What's missing is folder structure: a place for work that isn't identity.
 
