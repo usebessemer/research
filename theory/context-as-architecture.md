@@ -4,7 +4,7 @@
 
 ## TL;DR
 
-Where information lives in a project determines when and how an agent uses it, making folder structure the load-bearing element of agentic workflow design rather than mere file organization.
+Folder structure is not file organization; it is agentic workflow architecture. Where information lives determines when and how an agent uses it. This paper builds the architecture across five stages, from a single identity file to a fully nested workspace with task-level routing, and proposes that the architecture has two independent axes: a routing hierarchy (L0 root, L1 workspace, L2 task) and a horizontal axis combining load pattern with content type (identity, situational context, references, working files). The horizontal pattern repeats at every routing level, making the architecture compositional: new work scopes use the same pattern at new depths. The paper extends ICM (Van Clief and McDermott) by reframing its five layers as two independent axes, and demonstrates the architecture at scale through AIOS, a personal Agent Operating System in production.
 
 ## The architecture in five stages
 
