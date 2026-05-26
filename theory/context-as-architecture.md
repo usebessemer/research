@@ -194,7 +194,17 @@ The architecture as designed is now closed. The remaining sections look at how i
 
 ## AIOS as a worked example at scale
 
-[Map the AIOS root onto Stages 0 through 3. Map one engagement workspace onto Stages 4 and 5. Concrete evidence that the toy example is the real architecture, just at more nodes.]
+The toy workspace built across Stages 0-5 is the architecture in its minimum viable form. AIOS, the personal Agent Operating System the author runs in production, instantiates the same patterns at meaningful scale.
+
+At L0, AIOS's root `CLAUDE.md` carries global identity: who the user is, voice rules, the Three Ms framework that informs his AI work, mode declarations, and routing instructions for everything below. The L0 always-loaded context lives in `context/`: separate files for training, nutrition, household, inbox, and active content planning. Each updates at its own cadence as life updates. On-demand references in `references/` include the consulting SOP, the lead-gen methodology, voice samples, and operating manuals for channels like iMessage. The horizontal pattern at L0 is exactly the pattern Stage 3 introduced.
+
+At L1, AIOS has multiple active workspaces: client engagements under `clients/consulting/<name>/`, coaching workspaces under `clients/coaching/<name>/`, the author's training workspace under `training/`, and others. Each workspace is a fractal of the global architecture, with its own CLAUDE.md (workspace identity), its own `context/` for workspace-specific situational facts, and its own structured work folders. Each consulting engagement follows the same form: seven numbered stage folders (`00-context/` through `06-writeup/`), each with files specific to that stage of the engagement.
+
+At L2, AIOS extends beyond the toy example's co-located load/skip table. Each engagement stage has its own `CONTEXT.md` file with explicit Input → Process → Output → Completion contracts (the form Van Clief specifies). The workspace's `CLAUDE.md` carries identity plus pointers to those per-stage contracts. This is the separated form discussed in the Identity vs Operations section, applied where it pays off most: multi-stage workflows where per-task operations exceed what a single load/skip table can capture.
+
+The architecture also demonstrates its compositional payoff at AIOS scale. New workspaces (a new client engagement, a new training block) get spun up by applying the existing patterns at the new scope. The decisions log (`decisions/log.md`) operates as an appendable record across all workspaces. The architecture absorbs work as varied as software development, consulting engagements, training programming, and coaching, without requiring a fundamentally different system for each. The same routing hierarchy and the same load patterns serve all of them.
+
+What changes at scale is content density, not architecture. AIOS has hundreds of files where the toy workspace has a handful. But the categorization, the routing, the loading rules: none of these change. That stability is the architecture's payoff.
 
 ## Failure modes
 
