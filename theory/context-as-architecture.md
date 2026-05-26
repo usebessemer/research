@@ -162,6 +162,22 @@ With operations now part of the architecture alongside identity, a dichotomy eme
 
 [Vertical: routing hierarchy. Horizontal: load pattern. The same load-pattern logic repeats at every routing level. That recursion is what makes the architecture scale without learning a new system at each level.]
 
+## Indentity vs Operations
+
+Throughout the build-up, `CLAUDE.md` files have been described as "identity." That is incomplete. `CLAUDE.md` actually carries two distinct kinds of content, and the distinction matters.
+
+Identity content is who the agent is at this scope. Conventions, voice rules, behavioral patterns, mode declarations. It is declarative and durable. It answers: what kind of agent am I in this context?
+
+Operations content is what the agent does given the scope. Load/skip tables (introduced in Stage 5), task-specific routing, action sequences. It is imperative and situational. It answers: given a task, what should I do?
+
+Both kinds are present in `CLAUDE.md`, especially at L1. The root L0 leans more toward identity (the user's identity is the user's identity, full stop). The workspace L1 balances both: identity for the workspace plus operations for tasks within it.
+
+The split matters for three reasons. Identity is stable, operations change. Identity rules rarely shift; operations grow with new task types. Recognizing them as distinct lets you extend operations without touching identity. Operations are derived from identity. You can write operations clearly only when identity is clear first. The architecture's robustness comes from this separation. Adding a new task type means adding a row to the load/skip table. Identity stays untouched. If they were entangled, every new task would require revisiting identity.
+
+In Stage 5's toy example, identity and operations are co-located in the workspace's `CLAUDE.md`. The same file carries the identity section and the load/skip table. That is the simplest form. More mature workflows separate them further: each stage gets its own `CONTEXT.md` file with explicit Input → Process → Output → Completion contracts, and the workspace's `CLAUDE.md` stays identity-only. This is the form Van Clief's methodology specifies for multi-stage pipelines, and the form used in practice in production workspaces. Co-location is fine for simple workspaces with few task types; separation pays off when task types multiply and per-task instructions grow beyond a row in a table.
+
+Operations are a living layer of the architecture. The load/skip table is populated when the workspace is first set up and refined over time as new task types emerge, existing rules turn out to be incomplete, or task types fall out of use. This refinement happens deliberately, with human review. The agent can propose changes when it notices recurring patterns or repeated insufficiencies, but the table itself stays under human control. Identity, by contrast, stabilizes early and changes rarely.
+
 ## AIOS as a worked example at scale
 
 [Map the AIOS root onto Stages 0 through 3. Map one engagement workspace onto Stages 4 and 5. Concrete evidence that the toy example is the real architecture, just at more nodes.]
