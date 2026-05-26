@@ -70,9 +70,44 @@ Identity is durable. Projects come and go. Reference material is timeless. But w
 
 Everything so far lives at the same routing level. There is no notion yet of a subproject with its own internal structure, or a workspace inside a workspace. Real workflows have nesting. A "novel" project has chapters, references specific to that novel, and a `CLAUDE.md` that governs how the novel work specifically gets done. The flat architecture can't accommodate that.
 
-### Stage 4 — Workspace
+### Stage 4 — Nested Workspaces
 
-[Add a nested workspace with its own CLAUDE.md. Routing hierarchy enters: L0 to L1.]
+```
+my-workspace/
+├── CLAUDE.md
+├── context/
+│   └── about-me.md
+├── references/
+│   └── style-guide.md
+└── projects/
+    └── novel/
+        ├── CLAUDE.md
+        ├── context/
+        │   └── plot-bible.md
+        └── chapters/
+            └── ch-1.md
+```
+Some projects outgrow being a file. A novel is not a single markdown document; it has chapters, plot notes, character sheets, and conventions specific to that novel only. Once a project's internal structure starts mattering, the flat architecture breaks down. The novel becomes a workspace: a folder with its own internal organization, its own `CLAUDE.md`, and its own context. A workspace's internal architecture is the global architecture, locally instantiated. The novel can have its own `context/` (a plot-bible), its own `references/`, its own work files (`chapters/`). Each workspace takes what it needs from the global pattern without polluting the global context with workspace-specific concerns.
+
+When an agent works inside the novel, it does not replace its global context with workspace context. It adds. The loading sequence:
+
+1. At the global level (L0):
+- Read root `CLAUDE.md` (identity and routing)
+- Read global `context/*` (situational facts)
+- Load global `references/*` if the task type calls for them
+2. At the workspace level (L1):
+- Read `novel/CLAUDE.md` (workspace identity and routing)
+- Read `novel/context/*` (workspace situational facts, like the plot bible)
+- Load `novel/references/*` if applicable
+3. At the task level:
+- Read the work file (the specific chapter)
+- Execute the task with the full stacked context
+
+Each layer assumes the layer above is already present. The novel's `CLAUDE.md` does not restate global voice rules; those are already loaded. It contains only what is specific to the novel: voice rules for the protagonist, target reader, structural conventions for chapters.
+
+This is the first time the architecture has two visible axes. The horizontal axis (load pattern combined with content type: identity, situational context, references, working files) operates at each routing level. The vertical axis (routing hierarchy: L0, L1, and eventually L2) determines where the agent operates. The two axes are dimensionally independent: knowing the routing level does not fix the content type, and vice versa. They are also structurally invariant: the horizontal pattern repeats at each routing level. This is the fractal property of the architecture. The same categories appear at L0, at L1, and at any nested workspace, with no special cases at any level.
+
+What L1 does not provide is task-specific routing. The novel's `CLAUDE.md` establishes who the agent is in this workspace, but not which files to load when drafting chapter 3 versus editing chapter 1 versus checking continuity across the novel. The workspace knows its identity; it does not yet specify operations. That is the gap Stage 5 fills.
 
 ### Stage 5 — Task-level routing
 
