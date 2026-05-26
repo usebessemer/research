@@ -231,18 +231,34 @@ A separate, currently open, problem is traceability. When an output reflects one
 
 ## Adjacent concepts
 
-- ICM (Interpretable Context Methodology), Van Clief and McDermott. The architectural lineage.
-- Progressive disclosure
-- AGENTS.md / CLAUDE.md conventions
-- Memory systems
-- Prompt engineering
+This methodology sits in a broader intellectual neighborhood. The most relevant adjacencies are documented here to position the work and acknowledge what it builds on.
 
+ICM (Interpretable Context Methodology). Van Clief and McDermott, Interpretable Context Methodology: Folder Structure as Agentic Architecture, arXiv 2603.16021. The direct architectural lineage. ICM specifies a five-layer model with numbered stages and explicit Input → Process → Output contracts per stage. This paper proposes that ICM's five layers are more clearly understood as two independent axes: routing hierarchy and load pattern combined with content type. The methodology presented here is ICM-shaped, with that structural reinterpretation.
+
+Unix pipeline design. "Programs that do one thing. Output of one becomes input of another. Plain text as universal interface." ICM invokes this lineage directly. The same principles operate in this paper's stage contracts: scoped responsibility, plain markdown as the medium, output-becomes-input across folder boundaries. The filesystem-as-architecture move has Unix as its deepest conceptual ancestor.
+
+Multi-pass compiler design. Sequential transformation across well-defined intermediate forms. Each pass scopes its concerns; outputs flow forward. Van Clief invokes this alongside Unix in the source paper. The stage pattern in workspace pipelines is the same shape applied to agent workflows.
+
+Literate programming. Knuth's idea that documentation and code interleave so the program reads as prose. The `CLAUDE.md` / `CONTEXT.md` convention here is a descendant: structured prose carrying both intent and instruction. Where literate programming wove documentation into code, this architecture weaves instruction into folder structure.
+
+Progressive disclosure. Norman, Tognazzini, and the UI design tradition. The underlying principle of the load-pattern axis: surface what is needed for the current task, hide what is not. Originally a principle for designing for human attention; here, a principle for designing against finite context windows.
+
+AGENTS.md / CLAUDE.md conventions. Different vendors, same convention: a designated identity file at the root of a workspace, read first when an agent enters. Anthropic's `CLAUDE.md` and others' `AGENTS.md` are local variants of the same architectural pattern. This paper uses `CLAUDE.md` throughout because the author's working environment is Anthropic's, but the methodology generalizes.
+
+Adjacent but distinct: memory systems. Memory is agent-side state that persists across conversations. Context-as-architecture is project-side structure that the agent reads each session. They cooperate but solve different problems. A memory system records what the agent has learned; the architecture defines what the agent should read.
+
+Adjacent but distinct: prompt engineering. A prompt operates per call: it shapes a single inference's input. The architecture is structural and persistent: it shapes which prompts the agent assembles for itself based on where it is operating. Prompt engineering optimizes within a single call; the architecture optimizes which calls happen and what they carry.
 ## References
 
-- Van Clief, A. and McDermott, J. *Interpretable Context Methodology: Folder Structure as Agentic Architecture.* arXiv:2603.16021.
-- Matt Pocock, open-source agent-skills repository.
-- Anthropic, Claude Code documentation on `CLAUDE.md`.
+Anthropic. Claude Code documentation. https://docs.anthropic.com/en/docs/claude-code
 
----
+Knuth, D. E. (1984). Literate Programming. The Computer Journal, 27(2), 97-111.
 
-*Outline revised 2026-05-24. Next: fill each stage section into prose, then fill the AIOS worked-example section, then failure modes and TL;DR.*
+Norman, D. A. (1988). The Design of Everyday Things. Basic Books.
+
+Pocock, M. agent-skills [https://github.com/mattpocock/skills]. Implementation reference for skill-level progressive disclosure.
+
+Ritchie, D. M., and Thompson, K. (1974). The UNIX Time-Sharing System. Communications of the ACM, 17(7), 365-375.
+
+Van Clief, J., and McDermott, D. (2026). Interpretable Context Methodology: Folder Structure as Agentic Architecture. arXiv:2603.16021. https://arxiv.org/abs/2603.16021
+
