@@ -7,6 +7,7 @@ Free-standing investigations into programming patterns, emerging technology, met
 | Title | Status | File |
 |---|---|---|
 | Context as architecture | Outline | [context-as-architecture.md](context-as-architecture.md) |
+| LLMs to Claude Code, Part 1: The Chatbot Ceiling | Draft | [llms-to-claude-code/part-1-the-chatbot-ceiling.md](llms-to-claude-code/part-1-the-chatbot-ceiling.md) |
 
 ## How to add a piece
 
