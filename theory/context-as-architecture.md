@@ -8,7 +8,7 @@ Folder structure is not file organization; it is agentic workflow architecture. 
 
 A small toy example, progressively complicated, surfaces the two axes that make folder structure architectural: the **routing hierarchy** (vertical: global → workspace → task) and the **load pattern** (horizontal: always loaded / on-demand / per-work-item).
 
-### Stage 0 — Identity only
+### Stage 0: Identity only
 ```
 my-workspace/
 ├── CLAUDE.md
@@ -20,7 +20,7 @@ A workspace with a single `CLAUDE.md` file changes that. `CLAUDE.md` carries ide
 
 What this example doesn't offer is a place for work to live. The product of each session has only two places to go: forced into `CLAUDE.md`, which pollutes what should remain identity-focused, or accumulated as ad-hoc documents with no convention. What's missing is folder structure: a place for work that isn't identity.
 
-### Stage 1 — Work files
+### Stage 1: Work files
 ```
 my-workspace/
 ├── CLAUDE.md
@@ -35,7 +35,7 @@ Identity is in place. Work has nowhere to live. The fix is a `projects/` folder 
 Identity plus per-task work is most of what an agent needs, but not all. There is still durable knowledge that applies across projects, such as style guides, methodologies, and conventions. None of it is identity or work-in-progress, and each needs a home of its own.
 
 
-### Stage 2 — References
+### Stage 2: References
 ```
 my-workspace/
 ├── CLAUDE.md
@@ -54,7 +54,7 @@ Identity has a home. Projects have a home. The conventions that apply across all
 Identity, per-task work, and on-demand reference handle most context needs. What's still missing is always-relevant facts about the user that aren't identity statements. Things like the recent move or a standing appointment shape how the agent should respond, but they aren't durable identity (too situational) and they aren't reference (relevant everywhere, not just for some tasks). They need their own always-loaded home.
 
 
-### Stage 3 — Background context
+### Stage 3: Background context
 ```
 my-workspace/
 ├── CLAUDE.md
@@ -70,7 +70,7 @@ Identity is durable. Projects come and go. Reference material is timeless. But w
 
 Everything so far lives at the same routing level. There is no notion yet of a subproject with its own internal structure, or a workspace inside a workspace. Real workflows have nesting. A "novel" project has chapters, references specific to that novel, and a `CLAUDE.md` that governs how the novel work specifically gets done. The flat architecture can't accommodate that.
 
-### Stage 4 — Nested Workspaces
+### Stage 4: Nested Workspaces
 
 ```
 my-workspace/
@@ -109,7 +109,7 @@ This is the first time the architecture has two visible axes. The horizontal axi
 
 What L1 does not provide is task-specific routing. The novel's `CLAUDE.md` establishes who the agent is in this workspace, but not which files to load when drafting chapter 3 versus editing chapter 1 versus checking continuity across the novel. The workspace knows its identity; it does not yet specify operations. That is the gap Stage 5 fills.
 
-### Stage 5 — Task-level routing
+### Stage 5: Task-level routing
 
 ```
 my-workspace/
