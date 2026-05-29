@@ -191,7 +191,7 @@ These two axes are dimensionally independent: knowing the routing level does not
 
 The interaction of the two axes does the work. The horizontal axis decides what the agent loads, when, and what kind of information it is. The vertical axis decides where the agent operates and what scope the loading rules apply to. Together they decompose the full context-selection question ("for an agent operating at this scope with this task, what should it see?") into two cleaner sub-questions. The architecture handles each with a different mechanism: folders and load patterns on the horizontal, nested `CLAUDE.md` files on the vertical.
 
-This decomposition is the paper's central conceptual claim. Most working architectures collapse context selection into a single flat dimension and rely on the model to disambiguate. The two-axes framing makes explicit what those architectures leave implicit. This is the synthesis we propose: Van Clief's five-layer ICM model is more clearly understood as two independent axes: routing hierarchy combined with load pattern and content type. That decomposition is what makes the architecture infinitely composable while keeping the operating logic constant.
+This decomposition is the paper's central conceptual claim. Most working architectures collapse context selection into a single flat dimension and rely on the model to disambiguate. The two-axes framing makes explicit what those architectures leave implicit. This is the synthesis the paper proposes: Van Clief's five-layer ICM model is more clearly understood as two independent axes: routing hierarchy combined with load pattern and content type. That decomposition is what makes the architecture infinitely composable while keeping the operating logic constant.
 
 The architecture as designed is now closed. The remaining sections look at how it operates at scale, where it fails, and what surrounding ideas inform it.
 
@@ -252,6 +252,66 @@ This methodology sits in a broader intellectual neighborhood. The most relevant 
 **Adjacent but distinct: memory systems.** Memory is agent-side state that persists across conversations. Context-as-architecture is project-side structure that the agent reads each session. They cooperate but solve different problems. A memory system records what the agent has learned; the architecture defines what the agent should read.
 
 **Adjacent but distinct: prompt engineering.** A prompt operates per call: it shapes a single inference's input. The architecture is structural and persistent: it shapes which prompts the agent assembles for itself based on where it is operating. Prompt engineering optimizes within a single call; the architecture optimizes which calls happen and what they carry.
+
+## Glossary
+
+Terms specific to this paper, plus the foundational terms it relies on. Alphabetical.
+
+**Agent.** Middleware between the user and an LLM that lets the model operate in an environment: reading and writing files, running commands, calling tools. Distinct from a chatbot, which exposes the model only through conversation.
+
+**AGENTS.md / CLAUDE.md convention.** The shared convention across agent vendors of placing a designated identity file at the root of a workspace, read first when an agent enters. `CLAUDE.md` (Anthropic) and `AGENTS.md` (others) are local variants of the same pattern.
+
+**AIOS.** The production context architecture the author runs, short for AI Operating System (a framing drawn from Nate Herk's work). Used throughout as the worked example at scale.
+
+**`CLAUDE.md`.** The identity file at the root of a workspace. Carries identity content (who the agent is, conventions, voice rules) and, at the workspace level, operations content (routing, load/skip tables). Read first when an agent enters the workspace.
+
+**Completion field.** The fourth element this paper adds to Van Clief's three-part stage contract, defining when a stage is done. Gives Input → Process → Output → Completion.
+
+**Content type.** What kind of information a file holds: identity, situational context, reference material, or working files. One half of the horizontal axis, independent of when the file loads.
+
+**Context window.** The amount of text an LLM can consider in a single inference call, measured in tokens. Everything the model uses to produce a response lives inside it. It is finite, which is what makes load patterns matter.
+
+**`CONTEXT.md`.** A per-stage file in the separated form of the architecture, carrying an explicit Input → Process → Output → Completion contract for one stage of a multi-stage workflow. Keeps operations out of the workspace's identity file.
+
+**Dimensional independence.** The property that the two axes do not determine each other: knowing an agent's routing level does not fix the content type, and knowing the content type does not fix the routing level. Both values are needed to locate the agent's current context.
+
+**Factory and product.** Van Clief's framing for two content types. Reference material is the "factory": stable, used to make things. Working files are the "product": created and consumed during a task.
+
+**Fractal property (structural invariance).** The property that the horizontal pattern repeats unchanged at every routing level. The same content-type categories appear at L0, L1, and any nested workspace, with no special cases. An agent applies the L0 pattern at new scopes rather than learning a new system.
+
+**Horizontal axis.** Load pattern combined with content type. Decides what the agent loads, when, and what kind of information it is. Operates at every routing level.
+
+**ICM (Interpretable Context Methodology).** Van Clief and McDermott's methodology (arXiv 2603.16021) specifying folder structure as agentic architecture: a five-layer model with numbered stages and explicit Input → Process → Output contracts. The direct lineage this paper builds on and reframes.
+
+**Identity (content).** Who the agent is at a given scope: conventions, voice rules, behavioral patterns, mode declarations. Declarative and durable. Answers "what kind of agent am I in this context?" Contrast with operations content.
+
+**L0 / L1 / L2.** The three routing levels of the vertical axis. L0 is the root (global identity). L1 is a workspace (workspace identity and routing). L2 is task-level routing (which files to load for a given task).
+
+**Load pattern.** When a file enters the context window: always loaded (identity, situational context), on demand by task type (references), or per specific work item (working files). One half of the horizontal axis, independent of content type.
+
+**Load/skip table.** A table in a workspace's `CLAUDE.md` that maps task types to the exact files to load and skip. The mechanism that implements L2 task-level routing. A living document, refined under human review as task types emerge.
+
+**"Lost in the middle."** The finding that LLMs use information at the start and end of their context more reliably than information in the middle. Larger context windows do not solve it; they shift where the middle is. The constraint that makes selective loading architectural rather than optional.
+
+**Operations (content).** What the agent does given the scope: load/skip tables, task-specific routing, action sequences. Imperative and situational. Answers "given a task, what should I do?" Derived from identity, and the layer that grows as task types multiply. Contrast with identity content.
+
+**Reference material.** Durable, cross-cutting knowledge that is neither identity nor work-in-progress: style guides, methodologies, conventions. Loaded on demand when the task type calls for it. Van Clief's "factory."
+
+**Routing hierarchy.** The vertical axis: the nesting of scopes from root (L0) through workspace (L1) to task-level routing (L2). Determines where the agent operates and which loading rules apply.
+
+**Situational context.** Always-relevant facts about the user or project that are not identity statements: a recent move, a standing appointment, active priorities. Always loaded, like identity, but changeable where identity is stable. Lives in `context/`.
+
+**Stage contract.** The explicit interface for one stage of a multi-stage workflow, written as Input → Process → Output (Van Clief), extended in this paper with a Completion field. Defines what the stage consumes, does, produces, and when it is done.
+
+**Token.** The unit of text an LLM processes, roughly a word-fragment. Context windows and per-layer budgets are measured in tokens.
+
+**Two axes.** The paper's central reframing of ICM: context selection decomposes into a vertical axis (routing hierarchy) and a horizontal axis (load pattern combined with content type). The two are dimensionally independent and structurally invariant.
+
+**Vertical axis.** The routing hierarchy. Decides where the agent operates and what scope the loading rules apply to. See L0 / L1 / L2.
+
+**Workspace.** A folder an agent operates in, with its own identity file, context, references, and work files. Can nest inside other workspaces; each nested workspace is the global architecture instantiated locally.
+
+**Working files.** The per-task output of the work: the document, the chapter, the deliverable being produced. Created and consumed during execution. Van Clief's "product."
 
 ## References
 
