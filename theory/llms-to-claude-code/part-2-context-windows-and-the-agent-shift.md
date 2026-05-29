@@ -26,7 +26,7 @@ The "lost in the middle" problem is not solved by larger context windows. A 1-mi
 
 ## From chatbot to agent
 
-A chatbot is one kind of software layer above the LLM. An agent is another. They are peer wrappers around the same underlying model; what makes them different is the kind of interface they expose.
+A chatbot is one kind of middleware between the user and the LLM. An agent is another. Both sit between the user and the same underlying model; what makes them different is the kind of interface they expose.
 
 A chatbot exposes the model through a conversational window. The user types, the model generates a response, the cycle continues. The chatbot manages a transcript and that is roughly its full scope.
 
