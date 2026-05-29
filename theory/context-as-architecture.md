@@ -2,7 +2,7 @@
 
 ## TL;DR
 
-Folder structure is not file organization; it is agentic workflow architecture. Where information lives determines when and how an agent uses it. This paper builds the architecture across five stages, from a single identity file to a fully nested workspace with task-level routing, and proposes that the architecture has two independent axes: a routing hierarchy (L0 root, L1 workspace, L2 task) and a horizontal axis combining load pattern with content type (identity, situational context, references, working files). The horizontal pattern repeats at every routing level, making the architecture compositional: new work scopes use the same pattern at new depths. The paper extends ICM (Van Clief and McDermott) by reframing its five layers as two independent axes, and demonstrates the architecture at scale through AIOS, a personal Agent Operating System in production.
+Folder structure is not file organization; it is agentic workflow architecture. Where information lives determines when and how an agent uses it. This paper builds the architecture across five stages, from a single identity file to a fully nested workspace with task-level routing, and proposes that the architecture has two independent axes: a routing hierarchy (L0 root, L1 workspace, L2 task) and a horizontal axis combining load pattern with content type (identity, situational context, references, working files). The horizontal pattern repeats at every routing level, making the architecture compositional: new work scopes use the same pattern at new depths. The paper extends ICM (Van Clief and McDermott) by reframing its five layers as two independent axes, and demonstrates the architecture at scale through a production system the author runs, referred to throughout as AIOS.
 
 ## The architecture in five stages
 
@@ -197,13 +197,13 @@ The architecture as designed is now closed. The remaining sections look at how i
 
 ## AIOS as a worked example at scale
 
-The toy workspace built across Stages 0-5 is the architecture in its minimum viable form. AIOS, the personal Agent Operating System the author runs in production, instantiates the same patterns at meaningful scale.
+The toy workspace built across Stages 0-5 is the architecture in its minimum viable form. The author runs a production instance at much larger scale: a structured environment of folders spanning consulting work, software projects, training, and daily life. The author refers to this instance as AIOS, short for AI Operating System, a framing drawn from Nate Herk's work. It instantiates the same patterns described above, scaled up.
 
 At L0, AIOS's root `CLAUDE.md` carries global identity: who the user is, voice rules, the Three Ms framework that informs his AI work, mode declarations, and routing instructions for everything below. The L0 always-loaded context lives in `context/`: separate files for training, nutrition, household, inbox, and active content planning. Each updates at its own cadence as life updates. On-demand references in `references/` include the consulting SOP, the lead-gen methodology, voice samples, and operating manuals for channels like iMessage. The horizontal pattern at L0 is exactly the pattern Stage 3 introduced.
 
 At L1, AIOS has multiple active workspaces: client engagements under `clients/consulting/<name>/`, coaching workspaces under `clients/coaching/<name>/`, the author's training workspace under `training/`, and others. Each workspace is a fractal of the global architecture, with its own `CLAUDE.md` (workspace identity), its own `context/` for workspace-specific situational facts, and its own structured work folders. Each consulting engagement follows the same form: seven numbered stage folders (`00-context/` through `06-writeup/`), each with files specific to that stage of the engagement.
 
-At L2, AIOS extends beyond the toy example's co-located load/skip table. Each engagement stage has its own `CONTEXT.md` file with explicit Input → Process → Output → Completion contracts, extending Van Clief's three-part form with a Completion field that defines when a stage is done. The workspace's `CLAUDE.md` carries identity plus pointers to those per-stage contracts. File sizes track Van Clief's typical ranges: workspace routing ~300 tokens, per-stage contracts 200-500 tokens, reference material 500-2k tokens. This is the separated form discussed in the Identity vs Operations section, applied where it pays off most: multi-stage workflows where per-task operations exceed what a single load/skip table can capture.
+At L2, AIOS extends beyond the toy example's co-located load/skip table. Each engagement stage has its own `CONTEXT.md` file with explicit Input → Process → Output → Completion contracts, extending Van Clief's three-part form with a Completion field that defines when a stage is done. The workspace's `CLAUDE.md` carries identity plus pointers to those per-stage contracts. File sizes broadly track Van Clief's typical ranges (workspace routing ~300 tokens, per-stage contracts 200-500, reference material 500-2k), with comprehensive reference documents running larger; see the appendix on token-cost methodology. This is the separated form discussed in the Identity vs Operations section, applied where it pays off most: multi-stage workflows where per-task operations exceed what a single load/skip table can capture.
 
 The architecture also demonstrates its compositional payoff at AIOS scale. New workspaces (a new client engagement, a new training block) get spun up by applying the existing patterns at the new scope. The decisions log (`decisions/log.md`) operates as an appendable record across all workspaces. The architecture absorbs work as varied as software development, consulting engagements, training programming, and coaching, without requiring a fundamentally different system for each. The same routing hierarchy and the same load patterns serve all of them.
 
@@ -266,4 +266,37 @@ Pocock, M. agent-skills (https://github.com/mattpocock/skills). Implementation r
 Ritchie, D. M., and Thompson, K. (1974). The UNIX Time-Sharing System. Communications of the ACM, 17(7), 365-375.
 
 Van Clief, J., and McDermott, D. (2026). Interpretable Context Methodology: Folder Structure as Agentic Architecture. arXiv:2603.16021. https://arxiv.org/abs/2603.16021
+
+## Appendix: Token-cost methodology
+
+The main text cites approximate per-layer token ranges (workspace routing ~300 tokens, stage contracts 200-500, reference material 500-2,000). Those ranges originate in Van Clief's ICM paper. This appendix documents their source, validates them against a production system, and gives a reproducible measurement method.
+
+### What a token is
+
+A token is the unit of text an LLM processes, roughly a word-fragment. Token counts matter here because the context window is measured in tokens, and the per-layer budget determines how much of that window each part of the architecture consumes on a given task.
+
+### Source ranges
+
+The ranges in the main text are reported in Van Clief and McDermott's ICM paper: approximately 300 tokens for workspace-level routing (L1), 200 to 500 tokens for per-stage contracts (L2), and 500 to 2,000 tokens for reference material (L3).
+
+### Measurement against a production system
+
+To check whether these ranges hold in practice, representative files from AIOS were tokenized. Counts were produced with tiktoken using the cl100k_base encoding. tiktoken is OpenAI's tokenizer, used here as an accessible proxy for Claude's tokenizer; the two differ in detail but produce counts in the same range. The method is reproducible: install tiktoken, encode the file's text, count the tokens.
+
+| AIOS file | Layer | Measured tokens | Van Clief range |
+|---|---|---|---|
+| Workspace router (a consulting engagement `CLAUDE.md`) | L1 | 431 | ~300 |
+| Stage contract (a discovery-stage `CONTEXT.md`) | L2 | 331 | 200-500 |
+| Focused reference (`voice.md`) | L3 | 734 | 500-2,000 |
+| Comprehensive reference (the consulting SOP) | L3 | 3,822 | 500-2,000 |
+
+### Interpretation
+
+Stage contracts and focused references track Van Clief's ranges directly. The workspace router runs somewhat heavier than the reported ~300 tokens (431 measured) because AIOS routers carry both a load/skip table and a stage-status table, more than a minimal routing file.
+
+The clearest divergence is the comprehensive reference. A full methodology document like the consulting SOP runs roughly 3,800 tokens, nearly double Van Clief's upper bound for L3. The difference is one of kind: Van Clief's L3 examples are focused references (design systems, voice rules, conventions), whereas a complete SOP is comprehensive. The implication is that the upper bound on reference material is not fixed. It scales with how comprehensive the reference is, and comprehensive references are candidates for splitting, or for loading only the relevant section on demand.
+
+### Why it matters
+
+Per-layer token counts are not trivia. They determine how much of a finite context window each part of the architecture consumes on a given task. A workspace that loads a 3,800-token SOP on every task, when only a 300-token section is relevant, spends its context budget poorly and is more exposed to the lost-in-the-middle problem. Measuring the actual token cost of each file is how you know whether the architecture loads efficiently or quietly wastes the window.
 
