@@ -1,5 +1,7 @@
 # The space-by-time economy of the context window
 
+*An accessible overview is in [the README](README.md). This is the full paper.*
+
 ## TL;DR
 
 A model has a bounded context window: a finite set of slots, filled for one call, attended all at once. Everything you place there, files, agents, tools, memories, connections, skills, competes for that finite attention.
