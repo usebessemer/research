@@ -12,6 +12,7 @@ Free-standing investigations into programming patterns, emerging technology, met
 | LLMs to Claude Code, Part 3: Claude Code in a Folder | Draft | [llms-to-claude-code/part-3-claude-code-in-a-folder.md](llms-to-claude-code/part-3-claude-code-in-a-folder.md) |
 | LLMs to Claude Code: Glossary | Draft | [llms-to-claude-code/glossary.md](llms-to-claude-code/glossary.md) |
 | The agent-role topology | Draft | [agent-role-topology.md](agent-role-topology.md) |
+| The space-by-time economy of the context window | Draft | [overview](space-time-economy/) · [full paper](space-time-economy/main.md) |
 
 ## How to add a piece
 
