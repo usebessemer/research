@@ -6,9 +6,11 @@ See [../README.md](../README.md) for the top-level research framing (applied and
 
 ## Active tracks
 
-| Project | Dev repo | Folder |
-|---|---|---|
-| agent-dev-team | [usebessemer/agent-dev-team](https://github.com/usebessemer/agent-dev-team) | [agent-dev-team/](agent-dev-team/) |
+| Project | Dev repo | Folder | Status |
+|---|---|---|---|
+| icm-kit | [usebessemer/icm-kit](https://github.com/usebessemer/icm-kit) | [icm-kit/](icm-kit/) | active |
+| agent-classes | [usebessemer/agent-classes](https://github.com/usebessemer/agent-classes) | [agent-classes/](agent-classes/) | active |
+| agent-dev-team | [usebessemer/agent-dev-team](https://github.com/usebessemer/agent-dev-team) | [agent-dev-team/](agent-dev-team/) | dormant |
 
 The most recent `cycles/<vN.M>/` folder is the current cycle for each project. A cycle is closed when its `findings.md` is written.
 

@@ -21,9 +21,11 @@ Bessemer's research arm. Comprises two parallel tracks:
 
 ## Active applied tracks
 
-| Project | Dev repo | Folder |
-|---|---|---|
-| agent-dev-team | [usebessemer/agent-dev-team](https://github.com/usebessemer/agent-dev-team) | [applied/agent-dev-team/](applied/agent-dev-team/) |
+| Project | Dev repo | Folder | Status |
+|---|---|---|---|
+| icm-kit | [usebessemer/icm-kit](https://github.com/usebessemer/icm-kit) | [applied/icm-kit/](applied/icm-kit/) | active |
+| agent-classes | [usebessemer/agent-classes](https://github.com/usebessemer/agent-classes) | [applied/agent-classes/](applied/agent-classes/) | active |
+| agent-dev-team | [usebessemer/agent-dev-team](https://github.com/usebessemer/agent-dev-team) | [applied/agent-dev-team/](applied/agent-dev-team/) | dormant |
 
 ## How applied research works
 
