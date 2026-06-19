@@ -11,6 +11,7 @@ Free-standing investigations into programming patterns, emerging technology, met
 | LLMs to Claude Code, Part 2: Context Windows and the Agent Shift | Draft | [llms-to-claude-code/part-2-context-windows-and-the-agent-shift.md](llms-to-claude-code/part-2-context-windows-and-the-agent-shift.md) |
 | LLMs to Claude Code, Part 3: Claude Code in a Folder | Draft | [llms-to-claude-code/part-3-claude-code-in-a-folder.md](llms-to-claude-code/part-3-claude-code-in-a-folder.md) |
 | LLMs to Claude Code: Glossary | Draft | [llms-to-claude-code/glossary.md](llms-to-claude-code/glossary.md) |
+| The agent-role topology | Draft | [agent-role-topology.md](agent-role-topology.md) |
 
 ## How to add a piece
 
